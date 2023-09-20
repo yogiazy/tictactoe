@@ -229,7 +229,9 @@ const swalWithBootstrapButtons = Swal.mixin({
 swalWithBootstrapButtons.fire({
     title: 'TIC TAC TOE!',
     text: "Hi! I'm Azy. Let's play Tic Tac Toe with me! Choose who will play first",
-    icon: 'question',
+    imageUrl: 'azy.png',
+    imageWidth: 120,
+    imageHeight: 120,
     showCancelButton: true,
     confirmButtonText: 'You',
     cancelButtonText: 'Azy',
