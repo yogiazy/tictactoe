@@ -86,3 +86,22 @@ button:hover {
     transition: 200ms transform;
     font-weight: 600;
 }
+
+footer {
+    background-color: rgba(var(--orange-rgb), 0.5);
+    padding: 10px;
+    text-align: center;
+    position: fixed;
+    bottom: 25px;
+    left: 0;
+    width: 100%;
+}
+
+footer a {
+    color: var(--orange);
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
