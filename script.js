@@ -23,58 +23,61 @@ function boxClicked(e) {
         if (playerHasWon() !== false) {
             playerText.innerHTML = `You Won!`
             let winning_blocks = playerHasWon()
-            swalWithBootstrapButtons.fire({
-                title: 'Congrats! You Won!',
-                text: "Play again? Choose who will play first",
-                icon: 'success',
-                showCancelButton: true,
-                confirmButtonText: 'You',
-                cancelButtonText: 'Azy',
-                reverseButtons: true
-            }).then((result) => {
-                spaces.fill(null)
-                boxes.forEach(box => {
-                    box.innerText = ''
-                    box.style.backgroundColor = ''
-                })
-                playerText.innerHTML = 'Can you beat Azy?'
-                if (result.isConfirmed) {
-                    currentPlayer = X_TEXT;
-                } else if (result.dismiss === Swal.DismissReason.cancel) {
-                    currentPlayer = O_TEXT;
-                    setTimeout(makeBestMove, 500);
-                }
-            })
-
             winning_blocks.map(box => boxes[box].style.backgroundColor = winnerIndicator)
-            return
+            setTimeout(function () {
+                swalWithBootstrapButtons.fire({
+                    title: 'Congrats! You Won!',
+                    text: "Play again? Choose who will play first",
+                    icon: 'success',
+                    showCancelButton: true,
+                    confirmButtonText: 'You',
+                    cancelButtonText: 'Azy',
+                    reverseButtons: true
+                }).then((result) => {
+                    spaces.fill(null)
+                    boxes.forEach(box => {
+                        box.innerText = ''
+                        box.style.backgroundColor = ''
+                    })
+                    playerText.innerHTML = 'Can you beat Azy?'
+                    if (result.isConfirmed) {
+                        currentPlayer = X_TEXT;
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        currentPlayer = O_TEXT;
+                        setTimeout(makeBestMove, 500);
+                    }
+                })
+            }, 800);
+            return;
         }
 
         if (spaces.every(space => space !== null)) {
             playerText.innerHTML = 'It\'s a draw!';
-            swalWithBootstrapButtons.fire({
-                title: 'It\'s a Draw!',
-                text: "Play again? Choose who will play first",
-                icon: 'info',
-                showCancelButton: true,
-                confirmButtonText: 'You',
-                cancelButtonText: 'Azy',
-                reverseButtons: true
-            }).then((result) => {
-                spaces.fill(null)
-                boxes.forEach(box => {
-                    box.innerText = ''
-                    box.style.backgroundColor = ''
+            setTimeout(function () {
+                swalWithBootstrapButtons.fire({
+                    title: 'It\'s a Draw!',
+                    text: "Play again? Choose who will play first",
+                    icon: 'info',
+                    showCancelButton: true,
+                    confirmButtonText: 'You',
+                    cancelButtonText: 'Azy',
+                    reverseButtons: true
+                }).then((result) => {
+                    spaces.fill(null)
+                    boxes.forEach(box => {
+                        box.innerText = ''
+                        box.style.backgroundColor = ''
+                    })
+                    playerText.innerHTML = 'Can you beat Azy?'
+                    if (result.isConfirmed) {
+                        currentPlayer = X_TEXT;
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        currentPlayer = O_TEXT;
+                        setTimeout(makeBestMove, 500);
+                    }
                 })
-                playerText.innerHTML = 'Can you beat Azy?'
-                if (result.isConfirmed) {
-                    currentPlayer = X_TEXT;
-                } else if (result.dismiss === Swal.DismissReason.cancel) {
-                    currentPlayer = O_TEXT;
-                    setTimeout(makeBestMove, 500);
-                }
-            })
-            return
+            }, 500);
+            return;
         }
 
         currentPlayer = currentPlayer == X_TEXT ? O_TEXT : X_TEXT
@@ -105,58 +108,61 @@ function makeBestMove() {
     if (playerHasWon() !== false) {
         playerText.innerHTML = `Azy Won!`;
         let winning_blocks = playerHasWon();
-        swalWithBootstrapButtons.fire({
-            title: 'You Lose!',
-            text: "Play again? Choose who will play first",
-            icon: 'error',
-            showCancelButton: true,
-            confirmButtonText: 'You',
-            cancelButtonText: 'Azy',
-            reverseButtons: true
-        }).then((result) => {
-            spaces.fill(null)
-            boxes.forEach(box => {
-                box.innerText = ''
-                box.style.backgroundColor = ''
-            })
-            playerText.innerHTML = 'Can you beat Azy?'
-            if (result.isConfirmed) {
-                currentPlayer = X_TEXT;
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                currentPlayer = O_TEXT;
-                setTimeout(makeBestMove, 500);
-            }
-        })
-
         winning_blocks.map(box => boxes[box].style.backgroundColor = winnerIndicator);
+        setTimeout(function () {
+            swalWithBootstrapButtons.fire({
+                title: 'You Lose!',
+                text: "Play again? Choose who will play first",
+                icon: 'error',
+                showCancelButton: true,
+                confirmButtonText: 'You',
+                cancelButtonText: 'Azy',
+                reverseButtons: true
+            }).then((result) => {
+                spaces.fill(null)
+                boxes.forEach(box => {
+                    box.innerText = ''
+                    box.style.backgroundColor = ''
+                })
+                playerText.innerHTML = 'Can you beat Azy?'
+                if (result.isConfirmed) {
+                    currentPlayer = X_TEXT;
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    currentPlayer = O_TEXT;
+                    setTimeout(makeBestMove, 500);
+                }
+            })
+        }, 800);
         return;
     }
 
     if (spaces.every(space => space !== null)) {
         playerText.innerHTML = 'It\'s a draw!'
-        swalWithBootstrapButtons.fire({
-            title: 'It\'s a Draw!',
-            text: "Choose who will play first",
-            icon: 'info',
-            showCancelButton: true,
-            confirmButtonText: 'You',
-            cancelButtonText: 'Azy',
-            reverseButtons: true
-        }).then((result) => {
-            spaces.fill(null)
-            boxes.forEach(box => {
-                box.innerText = ''
-                box.style.backgroundColor = ''
+        setTimeout(function () {
+            swalWithBootstrapButtons.fire({
+                title: 'It\'s a Draw!',
+                text: "Choose who will play first",
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonText: 'You',
+                cancelButtonText: 'Azy',
+                reverseButtons: true
+            }).then((result) => {
+                spaces.fill(null)
+                boxes.forEach(box => {
+                    box.innerText = ''
+                    box.style.backgroundColor = ''
+                })
+                playerText.innerHTML = 'Can you beat Azy?'
+                if (result.isConfirmed) {
+                    currentPlayer = X_TEXT;
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    currentPlayer = O_TEXT;
+                    setTimeout(makeBestMove, 500);
+                }
             })
-            playerText.innerHTML = 'Can you beat Azy?'
-            if (result.isConfirmed) {
-                currentPlayer = X_TEXT;
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                currentPlayer = O_TEXT;
-                setTimeout(makeBestMove, 500);
-            }
-        })
-        return
+        }, 500);
+        return;
     }
 
     currentPlayer = currentPlayer == X_TEXT ? O_TEXT : X_TEXT;
