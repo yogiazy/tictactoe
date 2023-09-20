@@ -15,7 +15,8 @@ body {
 }
 
 h1 {
-    font-size: 47px;
+    font-size: 30px;
+    text-align: center;
     /* text-transform: uppercase; */
 }
 
