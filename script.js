@@ -1,5 +1,5 @@
 let playerText = document.getElementById('plyText')
-let restartBtn = document.getElementById('btn-restart')
+// let restartBtn = document.getElementById('btn-restart')
 let boxes = Array.from(document.getElementsByClassName('box'))
 
 let winnerIndicator = getComputedStyle(document.body).getPropertyValue('--winning-blocks')
@@ -36,7 +36,7 @@ function boxClicked(e) {
         currentPlayer = currentPlayer == X_TEXT ? O_TEXT : X_TEXT
 
         // AI's turn
-        setTimeout(makeBestMove, 400);
+        setTimeout(makeBestMove, 500);
     }
 }
 
@@ -61,6 +61,28 @@ function makeBestMove() {
     if (playerHasWon() !== false) {
         playerText.innerHTML = `Azy Won!`;
         let winning_blocks = playerHasWon();
+        swalWithBootstrapButtons.fire({
+            title: 'You Lose!',
+            text: "Choose who will play first",
+            icon: 'error',
+            showCancelButton: true,
+            confirmButtonText: 'You',
+            cancelButtonText: 'Azy',
+            reverseButtons: true
+        }).then((result) => {
+            spaces.fill(null)
+            boxes.forEach(box => {
+                box.innerText = ''
+                box.style.backgroundColor = ''
+            })
+            playerText.innerHTML = 'Can you beat Azy?'
+            if (result.isConfirmed) {
+                currentPlayer = X_TEXT;
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                currentPlayer = O_TEXT;
+                setTimeout(makeBestMove, 500);
+            }
+        })
 
         winning_blocks.map(box => boxes[box].style.backgroundColor = winnerIndicator);
         return;
@@ -128,26 +150,29 @@ function playerHasWon() {
     return false
 }
 
-restartBtn.addEventListener('click', restart)
-
-function restart() {
-    spaces.fill(null)
-
-    boxes.forEach(box => {
-        box.innerText = ''
-        box.style.backgroundColor = ''
-    })
-
-    playerText.innerHTML = 'Can you beat Azy?'
-
-    currentPlayer = X_TEXT
-
-    // AI starts if you want the AI to go first
-    //setTimeout(makeBestMove, 1000);
-}
-Swal.fire(
-    'Good job!',
-    'You clicked the button!',
-    'success'
-)
 startGame()
+
+const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+    },
+    buttonsStyling: false
+})
+
+swalWithBootstrapButtons.fire({
+    title: 'Who first?',
+    text: "Choose who will play first",
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: 'You',
+    cancelButtonText: 'Azy',
+    reverseButtons: true
+}).then((result) => {
+    if (result.isConfirmed) {
+        currentPlayer = X_TEXT;
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+        currentPlayer = O_TEXT;
+        setTimeout(makeBestMove, 500);
+    }
+})
