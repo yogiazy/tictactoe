@@ -16,7 +16,7 @@ const startGame = () => {
 function boxClicked(e) {
     const id = e.target.id
 
-    if (!spaces[id]) {
+    if (!spaces[id] && currentPlayer === X_TEXT) {
         spaces[id] = currentPlayer
         e.target.innerText = currentPlayer
 
@@ -28,7 +28,81 @@ function boxClicked(e) {
             return
         }
 
+        if (spaces.every(space => space !== null)) {
+            playerText.innerHTML = 'It\'s a draw!'
+            return
+        }
+
         currentPlayer = currentPlayer == X_TEXT ? O_TEXT : X_TEXT
+
+        // AI's turn
+        setTimeout(makeBestMove, 300);
+    }
+}
+
+function makeBestMove() {
+    let bestScore = -Infinity;
+    let move;
+    for (let i = 0; i < spaces.length; i++) {
+        if (spaces[i] == null) {
+            spaces[i] = O_TEXT;
+            let score = minimax(spaces, 0, false);
+            spaces[i] = null;
+            if (score > bestScore) {
+                bestScore = score;
+                move = i;
+            }
+        }
+    }
+
+    spaces[move] = O_TEXT;
+    boxes[move].innerText = O_TEXT;
+
+    if (playerHasWon() !== false) {
+        playerText.innerHTML = `${O_TEXT} has won!`;
+        let winning_blocks = playerHasWon();
+
+        winning_blocks.map(box => boxes[box].style.backgroundColor = winnerIndicator);
+        return;
+    }
+
+    if (spaces.every(space => space !== null)) {
+        playerText.innerHTML = 'It\'s a draw!'
+        return
+    }
+
+    currentPlayer = currentPlayer == X_TEXT ? O_TEXT : X_TEXT;
+}
+
+function minimax(board, depth, isMaximizing) {
+    if (playerHasWon() !== false) {
+        return isMaximizing ? -1 : 1;
+    } else if (spaces.every(space => space !== null)) {
+        return 0;
+    }
+
+    if (isMaximizing) {
+        let bestScore = -Infinity;
+        for (let i = 0; i < board.length; i++) {
+            if (board[i] == null) {
+                board[i] = O_TEXT;
+                let score = minimax(board, depth + 1, false);
+                board[i] = null;
+                bestScore = Math.max(score, bestScore);
+            }
+        }
+        return bestScore;
+    } else {
+        let bestScore = Infinity;
+        for (let i = 0; i < board.length; i++) {
+            if (board[i] == null) {
+                board[i] = X_TEXT;
+                let score = minimax(board, depth + 1, true);
+                board[i] = null;
+                bestScore = Math.min(score, bestScore);
+            }
+        }
+        return bestScore;
     }
 }
 
@@ -67,6 +141,9 @@ function restart() {
     playerText.innerHTML = 'Tic Tac Toe'
 
     currentPlayer = X_TEXT
+
+    // AI starts if you want the AI to go first
+    //setTimeout(makeBestMove, 1000);
 }
 
 startGame()
