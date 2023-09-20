@@ -145,5 +145,9 @@ function restart() {
     // AI starts if you want the AI to go first
     //setTimeout(makeBestMove, 1000);
 }
-
+Swal.fire(
+    'Good job!',
+    'You clicked the button!',
+    'success'
+)
 startGame()
