@@ -23,13 +23,57 @@ function boxClicked(e) {
         if (playerHasWon() !== false) {
             playerText.innerHTML = `You Won!`
             let winning_blocks = playerHasWon()
+            swalWithBootstrapButtons.fire({
+                title: 'Congrats! You Won!',
+                text: "Play again? Choose who will play first",
+                icon: 'success',
+                showCancelButton: true,
+                confirmButtonText: 'You',
+                cancelButtonText: 'Azy',
+                reverseButtons: true
+            }).then((result) => {
+                spaces.fill(null)
+                boxes.forEach(box => {
+                    box.innerText = ''
+                    box.style.backgroundColor = ''
+                })
+                playerText.innerHTML = 'Can you beat Azy?'
+                if (result.isConfirmed) {
+                    currentPlayer = X_TEXT;
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    currentPlayer = O_TEXT;
+                    setTimeout(makeBestMove, 500);
+                }
+            })
 
             winning_blocks.map(box => boxes[box].style.backgroundColor = winnerIndicator)
             return
         }
 
         if (spaces.every(space => space !== null)) {
-            playerText.innerHTML = 'It\'s a draw!'
+            playerText.innerHTML = 'It\'s a draw!';
+            swalWithBootstrapButtons.fire({
+                title: 'It\'s a Draw!',
+                text: "Play again? Choose who will play first",
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonText: 'You',
+                cancelButtonText: 'Azy',
+                reverseButtons: true
+            }).then((result) => {
+                spaces.fill(null)
+                boxes.forEach(box => {
+                    box.innerText = ''
+                    box.style.backgroundColor = ''
+                })
+                playerText.innerHTML = 'Can you beat Azy?'
+                if (result.isConfirmed) {
+                    currentPlayer = X_TEXT;
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    currentPlayer = O_TEXT;
+                    setTimeout(makeBestMove, 500);
+                }
+            })
             return
         }
 
@@ -63,7 +107,7 @@ function makeBestMove() {
         let winning_blocks = playerHasWon();
         swalWithBootstrapButtons.fire({
             title: 'You Lose!',
-            text: "Choose who will play first",
+            text: "Play again? Choose who will play first",
             icon: 'error',
             showCancelButton: true,
             confirmButtonText: 'You',
@@ -90,6 +134,28 @@ function makeBestMove() {
 
     if (spaces.every(space => space !== null)) {
         playerText.innerHTML = 'It\'s a draw!'
+        swalWithBootstrapButtons.fire({
+            title: 'It\'s a Draw!',
+            text: "Choose who will play first",
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonText: 'You',
+            cancelButtonText: 'Azy',
+            reverseButtons: true
+        }).then((result) => {
+            spaces.fill(null)
+            boxes.forEach(box => {
+                box.innerText = ''
+                box.style.backgroundColor = ''
+            })
+            playerText.innerHTML = 'Can you beat Azy?'
+            if (result.isConfirmed) {
+                currentPlayer = X_TEXT;
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                currentPlayer = O_TEXT;
+                setTimeout(makeBestMove, 500);
+            }
+        })
         return
     }
 
@@ -161,8 +227,8 @@ const swalWithBootstrapButtons = Swal.mixin({
 })
 
 swalWithBootstrapButtons.fire({
-    title: 'Who first?',
-    text: "Choose who will play first",
+    title: 'Welcome guys!',
+    text: "Hi! I'm Azy. Let's play Tic Tac Toe with me! Choose who will play first",
     icon: 'question',
     showCancelButton: true,
     confirmButtonText: 'You',
