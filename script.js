@@ -21,7 +21,7 @@ function boxClicked(e) {
         e.target.innerText = currentPlayer
 
         if (playerHasWon() !== false) {
-            playerText.innerHTML = `${currentPlayer} has won!`
+            playerText.innerHTML = `You Won!`
             let winning_blocks = playerHasWon()
 
             winning_blocks.map(box => boxes[box].style.backgroundColor = winnerIndicator)
@@ -36,7 +36,7 @@ function boxClicked(e) {
         currentPlayer = currentPlayer == X_TEXT ? O_TEXT : X_TEXT
 
         // AI's turn
-        setTimeout(makeBestMove, 300);
+        setTimeout(makeBestMove, 400);
     }
 }
 
@@ -59,7 +59,7 @@ function makeBestMove() {
     boxes[move].innerText = O_TEXT;
 
     if (playerHasWon() !== false) {
-        playerText.innerHTML = `${O_TEXT} has won!`;
+        playerText.innerHTML = `Azy Won!`;
         let winning_blocks = playerHasWon();
 
         winning_blocks.map(box => boxes[box].style.backgroundColor = winnerIndicator);
@@ -138,7 +138,7 @@ function restart() {
         box.style.backgroundColor = ''
     })
 
-    playerText.innerHTML = 'Tic Tac Toe'
+    playerText.innerHTML = 'Can you beat Azy?'
 
     currentPlayer = X_TEXT
 
